@@ -2,8 +2,9 @@ package searchers;
 
 import enums.ColumnType;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 public class CsvFileSearcher implements FileSearcher {
@@ -28,13 +29,6 @@ public class CsvFileSearcher implements FileSearcher {
     }
 
     public StringBuilder search(String searchSubstring, ColumnType columnType) throws IOException {
-        if (valuesColumnAndNumberOfAirportsMap.size() == 2) {
-            for (Map.Entry<String, List<Integer>> entry : valuesColumnAndNumberOfAirportsMap.entrySet()) {
-                if (entry.getKey().toLowerCase().startsWith(searchSubstring.toLowerCase())) {
-                    return getAllSuitableStringFromTheFile(entry.getValue());
-                }
-            }
-        }
         int middleIndex = getMiddleIndex(searchSubstring);
         if (middleIndex == -1) {
             return null;
@@ -66,7 +60,8 @@ public class CsvFileSearcher implements FileSearcher {
     private StringBuilder getAllSuitableStringFromTheFile(List<Integer> numbersOfAirports) throws IOException {
         sizeResultList = 0;
         StringBuilder resultList = new StringBuilder();
-        try (RandomAccessFile randomAccessFile = new RandomAccessFile(pathToFile, "rw")) {
+
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("airports123.csv", "rw")) {
             for (int i = 0; i < numbersOfAirports.size(); i++) {
                 int numberOfAirport = numbersOfAirports.get(i);
                 int index = numberAirportAndStartByteMap.get(numberOfAirport);
@@ -78,6 +73,8 @@ public class CsvFileSearcher implements FileSearcher {
         } catch (IOException e) {
             throw new IOException("Unexpected error has occurred");
         }
+
+
         return resultList;
     }
 

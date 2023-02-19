@@ -6,11 +6,14 @@ import preparers.FilePreparer;
 import searchers.CsvFileSearcher;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Executor {
 
-    private final String pathToFile = ".idea/airports.csv";
+    private final String pathToFile = "/airports123.csv";
 
     private final TreeMap<String, List<Integer>> valuesColumnAndNumberOfAirportsMap = new TreeMap<>();
     private final HashMap<Integer, String> numberOfAirportsAndValuesColumnMap = new HashMap<>();
@@ -27,12 +30,12 @@ public class Executor {
             valuesColumnAndNumberOfAirportsMap,
             numberOfAirportsAndValuesColumnMap);
 
-    public void execute() {
+    public void execute(String[] firstArgument) {
         int numberOfColumn;
         ColumnType columnType;
         ConsoleWorker consoleWorker = new ConsoleWorker(pathToFile);
         try {
-            numberOfColumn = consoleWorker.readFirstArgument();
+            numberOfColumn = consoleWorker.readFirstArgument(firstArgument);
             columnType = consoleWorker.defineColumnType(numberOfColumn);
         } catch (IllegalNumberFormatException | IOException e) {
             System.err.println(e.getMessage());

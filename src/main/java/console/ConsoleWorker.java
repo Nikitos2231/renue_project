@@ -3,9 +3,8 @@ package console;
 import custom_exceptions.IllegalNumberFormatException;
 import enums.ColumnType;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ConsoleWorker {
@@ -20,27 +19,24 @@ public class ConsoleWorker {
         this.pathToFile = pathToFile;
     }
 
-    public int readFirstArgument() throws IOException, IllegalNumberFormatException {
-        System.out.print("Enter the column, which need to search: ");
-        String enteredValue = scanner.nextLine();
-
+    public int readFirstArgument(String[] firstArgument) throws IOException, IllegalNumberFormatException {
         String firstFileLine;
         try {
             firstFileLine = getFirstLineInTheFile();
         } catch (IOException e) {
-            throw new IOException("Error with the file has occurred, please check file state or path to the file");
+            throw new IOException(e.getMessage());
         }
         String[] valuesIntoFirstLine = firstFileLine.split(",");
         int countColumn = valuesIntoFirstLine.length;
 
 
         try {
-            consoleWorker.checkNumberOfColumnValid(enteredValue, countColumn);
+            consoleWorker.checkNumberOfColumnValid(firstArgument, countColumn);
         } catch (IllegalNumberFormatException e) {
             throw new IllegalNumberFormatException(e.getMessage());
         }
 
-        return Integer.parseInt(enteredValue);
+        return Integer.parseInt(firstArgument[0]);
     }
 
     public String readSearchSubstring(ColumnType columnType) {
@@ -56,8 +52,11 @@ public class ConsoleWorker {
     }
 
     public String getFirstLineInTheFile() throws IOException {
-        BufferedReader reader;
-        reader = new BufferedReader(new FileReader(pathToFile));
+//        BufferedReader reader;
+//        reader = new BufferedReader(new FileReader(pathToFile));
+        InputStream inputStream = getClass().getResourceAsStream(pathToFile);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader reader = new BufferedReader(inputStreamReader);
         String firstFileLine = reader.readLine();
         reader.close();
         return firstFileLine;

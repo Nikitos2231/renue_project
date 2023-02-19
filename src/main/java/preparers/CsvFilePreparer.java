@@ -4,9 +4,7 @@ import console.ConsoleChecker;
 import console.ConsoleWorker;
 import enums.ColumnType;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -52,7 +50,10 @@ public class CsvFilePreparer implements FilePreparer {
 
     @Override
     public void prepare(String pathToFile, int numberOfColumn, ColumnType columnType) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(pathToFile));
+        InputStream inputStream = getClass().getResourceAsStream(pathToFile);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+//        BufferedReader reader = new BufferedReader(new FileReader(pathToFile));
         String line = reader.readLine();
         int currentByte = 0;
 
