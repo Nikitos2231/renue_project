@@ -1,11 +1,15 @@
 package preparers;
 
-import console.ConsoleChecker;
-import console.ConsoleWorker;
 import enums.ColumnType;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 /* Класс предназначен для заполнения нужных структур данных, для реализации быстрого поиска по файлу */
@@ -53,7 +57,6 @@ public class CsvFilePreparer implements FilePreparer {
         InputStream inputStream = getClass().getResourceAsStream(pathToFile);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader reader = new BufferedReader(inputStreamReader);
-//        BufferedReader reader = new BufferedReader(new FileReader(pathToFile));
         String line = reader.readLine();
         int currentByte = 0;
 

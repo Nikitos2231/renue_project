@@ -2,27 +2,20 @@ package searchers;
 
 import enums.ColumnType;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.*;
 
 public class CsvFileSearcher implements FileSearcher {
 
     private final List<String> allSortedValuesOfColumns;
-    private final String pathToFile;
-
     private final HashMap<Integer, Integer> numberAirportAndStartByteMap;
-
     private final TreeMap<String, List<Integer>> valuesColumnAndNumberOfAirportsMap;
-
     private final HashMap<Integer, String> numberOfAirportsAndValuesColumnMap;
-
     public static int sizeResultList = 0;
 
-    public CsvFileSearcher(List<String> allSortedValuesOfColumns, String pathToFile, HashMap<Integer, Integer> numberAirportAndStartByteMap, TreeMap<String, List<Integer>> valuesColumnAndNumberOfAirportsMap, HashMap<Integer, String> numberOfAirportsAndValuesColumnMap) {
+    public CsvFileSearcher(List<String> allSortedValuesOfColumns, HashMap<Integer, Integer> numberAirportAndStartByteMap, TreeMap<String, List<Integer>> valuesColumnAndNumberOfAirportsMap, HashMap<Integer, String> numberOfAirportsAndValuesColumnMap) {
         this.allSortedValuesOfColumns = allSortedValuesOfColumns;
-        this.pathToFile = pathToFile;
         this.numberAirportAndStartByteMap = numberAirportAndStartByteMap;
         this.valuesColumnAndNumberOfAirportsMap = valuesColumnAndNumberOfAirportsMap;
         this.numberOfAirportsAndValuesColumnMap = numberOfAirportsAndValuesColumnMap;
@@ -49,9 +42,6 @@ public class CsvFileSearcher implements FileSearcher {
     }
 
     private void sortSuitableValues(ColumnType columnType, List<String> suitableValues) {
-//        if (columnType == ColumnType.INTEGER) {
-//            suitableValues.sort(Comparator.comparingInt(Integer::parseInt));
-//        }
         if (columnType == ColumnType.DOUBLE) {
             suitableValues.sort(Comparator.comparingDouble(Double::parseDouble));
         }
@@ -78,7 +68,7 @@ public class CsvFileSearcher implements FileSearcher {
         return resultList;
     }
 
-    public List<Integer> getNumberOfAirports(List<String> suitableValues) {
+    private List<Integer> getNumberOfAirports(List<String> suitableValues) {
         List<Integer> numbersOfAirports = new ArrayList<>();
         List<Integer> numbersOfAirportsForValue;
         for (String value : suitableValues) {
@@ -88,7 +78,7 @@ public class CsvFileSearcher implements FileSearcher {
         return numbersOfAirports;
     }
 
-    public List<String> getAllSuitableEntries(int middleIndex, String search) {
+    private List<String> getAllSuitableEntries(int middleIndex, String search) {
 
         int sizeOfList = allSortedValuesOfColumns.size();
         int leftIndex = getLeftIndex(middleIndex, search.toLowerCase());

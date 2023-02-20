@@ -1,3 +1,5 @@
-ConsoleCheckerTest.class
+console\TypeManagerTest.class
+searchers\CsvFileSearcherTest.class
+console\ConsoleWorkerTest.class
+console\ConsoleCheckerTest.class
 preparers\CsvFilePreparerTest.class
-TypeManagerTest.class

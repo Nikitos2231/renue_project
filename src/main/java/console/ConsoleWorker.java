@@ -4,16 +4,14 @@ import custom_exceptions.IllegalNumberFormatException;
 import enums.ColumnType;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ConsoleWorker {
 
-    private final ConsoleChecker consoleWorker = new ConsoleChecker();
+    private final ConsoleChecker consoleChecker = new ConsoleChecker();
     private final TypeManager typeManager = new TypeManager();
-
     private final String pathToFile;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public ConsoleWorker(String pathToFile) {
         this.pathToFile = pathToFile;
@@ -29,9 +27,8 @@ public class ConsoleWorker {
         String[] valuesIntoFirstLine = firstFileLine.split(",");
         int countColumn = valuesIntoFirstLine.length;
 
-
         try {
-            consoleWorker.checkNumberOfColumnValid(firstArgument, countColumn);
+            consoleChecker.checkNumberOfColumnValid(firstArgument, countColumn);
         } catch (IllegalNumberFormatException e) {
             throw new IllegalNumberFormatException(e.getMessage());
         }
@@ -39,10 +36,9 @@ public class ConsoleWorker {
         return Integer.parseInt(firstArgument[0]);
     }
 
-    public String readSearchSubstring(ColumnType columnType) {
+    public String readSearchSubstring() {
         System.out.print("Enter substring: ");
-        String searchSubstring = scanner.nextLine();
-        return searchSubstring;
+        return scanner.nextLine();
     }
 
     public ColumnType defineColumnType(int numberOfColumn) throws IOException {
@@ -52,13 +48,17 @@ public class ConsoleWorker {
     }
 
     public String getFirstLineInTheFile() throws IOException {
-//        BufferedReader reader;
-//        reader = new BufferedReader(new FileReader(pathToFile));
         InputStream inputStream = getClass().getResourceAsStream(pathToFile);
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        String firstFileLine = reader.readLine();
-        reader.close();
+        BufferedReader reader;
+        String firstFileLine;
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            reader = new BufferedReader(inputStreamReader);
+            firstFileLine = reader.readLine();
+            reader.close();
+        } catch (NullPointerException e) {
+            throw new IOException(e.getMessage());
+        }
         return firstFileLine;
     }
 }

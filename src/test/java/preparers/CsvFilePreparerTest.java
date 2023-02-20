@@ -18,7 +18,7 @@ class CsvFilePreparerTest {
     private final HashMap<Integer, String> numberOfAirportsAndValuesColumnMap = new HashMap<>();
     private final HashMap<Integer, Integer> numberAirportAndStartByteMap = new HashMap<>();
     private final List<String> allSortedValuesOfColumns = new ArrayList<>();
-    private final String pathToFile = ".idea/test.csv";
+    private final String pathToFile = "/test.csv";
 
     @AfterEach
     public void clearMaps() {
@@ -35,7 +35,7 @@ class CsvFilePreparerTest {
                 numberAirportAndStartByteMap,
                 allSortedValuesOfColumns);
 
-//        csvFilePreparer.prepare(pathToFile, 1, ColumnType.INTEGER);
+        csvFilePreparer.prepare(pathToFile, 1, ColumnType.DOUBLE);
 
         assertEquals(List.of(1), valuesColumnAndNumberOfAirportsMap.get("1"));
         assertEquals(List.of(2), valuesColumnAndNumberOfAirportsMap.get("2"));
@@ -100,7 +100,7 @@ class CsvFilePreparerTest {
         assertEquals(List.of(1), valuesColumnAndNumberOfAirportsMap.get("-6.081689834590001"));
         assertEquals(List.of(2), valuesColumnAndNumberOfAirportsMap.get("-5.20707988739"));
         assertEquals(List.of(3), valuesColumnAndNumberOfAirportsMap.get("-5.826789855957031"));
-        assertEquals(List.of(4, 5), valuesColumnAndNumberOfAirportsMap.get("-6.569803"));
+        assertEquals(List.of(4, 5, 6), valuesColumnAndNumberOfAirportsMap.get("-6.569803"));
 
         assertEquals("-6.081689834590001", numberOfAirportsAndValuesColumnMap.get(1));
         assertEquals("-5.20707988739", numberOfAirportsAndValuesColumnMap.get(2));
@@ -127,7 +127,7 @@ class CsvFilePreparerTest {
 
         csvFilePreparer.prepare(pathToFile, 14, ColumnType.STRING);
 
-        assertEquals(List.of(1, 2, 3, 4, 5), valuesColumnAndNumberOfAirportsMap.get("\"OurAirports\""));
+        assertEquals(List.of(1, 2, 3, 4, 5, 6), valuesColumnAndNumberOfAirportsMap.get("\"OurAirports\""));
     }
 
     @Test
@@ -152,9 +152,9 @@ class CsvFilePreparerTest {
 
         csvFilePreparer.prepare(pathToFile, 2, ColumnType.STRING);
 
-        assertEquals(4, valuesColumnAndNumberOfAirportsMap.size());
-        assertEquals(5, numberOfAirportsAndValuesColumnMap.size());
-        assertEquals(5, numberAirportAndStartByteMap.size());
-        assertEquals(5, allSortedValuesOfColumns.size());
+        assertEquals(5, valuesColumnAndNumberOfAirportsMap.size());
+        assertEquals(6, numberOfAirportsAndValuesColumnMap.size());
+        assertEquals(6, numberAirportAndStartByteMap.size());
+        assertEquals(6, allSortedValuesOfColumns.size());
     }
 }

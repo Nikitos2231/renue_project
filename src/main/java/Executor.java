@@ -14,7 +14,6 @@ import java.util.TreeMap;
 public class Executor {
 
     private final String pathToFile = "/airports123.csv";
-
     private final TreeMap<String, List<Integer>> valuesColumnAndNumberOfAirportsMap = new TreeMap<>();
     private final HashMap<Integer, String> numberOfAirportsAndValuesColumnMap = new HashMap<>();
     private final HashMap<Integer, Integer> numberAirportAndStartByteMap = new HashMap<>();
@@ -25,7 +24,6 @@ public class Executor {
             allSortedValuesOfColumns);
 
     private final CsvFileSearcher csvFileSearcher = new CsvFileSearcher(allSortedValuesOfColumns,
-            pathToFile,
             numberAirportAndStartByteMap,
             valuesColumnAndNumberOfAirportsMap,
             numberOfAirportsAndValuesColumnMap);
@@ -53,7 +51,7 @@ public class Executor {
 
     private void getSearchingResults(ColumnType columnType, ConsoleWorker consoleWorker) {
         while (true) {
-            String searchingSubstring = consoleWorker.readSearchSubstring(columnType);
+            String searchingSubstring = consoleWorker.readSearchSubstring();
 
             if (searchingSubstring.equals("!quit")) {
                 return;
@@ -83,7 +81,4 @@ public class Executor {
             System.out.println("Founded entries: " + CsvFileSearcher.sizeResultList);
         }
     }
-
-
-
 }
