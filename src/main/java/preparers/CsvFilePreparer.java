@@ -2,10 +2,8 @@ package preparers;
 
 import enums.ColumnType;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,11 +74,12 @@ public class CsvFilePreparer implements FilePreparer {
             fillNumberOfAirportsAndValuesColumnMap(numberOfAirport, valueColumn);
             fillNumberAirportAndStartByteMap(numberOfAirport, currentByte);
 
-            currentByte += line.getBytes().length + 1;
+            currentByte += line.getBytes().length + 2;
 
             line = reader.readLine();
         }
         fillSortedValuesOfColumns();
+        extractFile();
     }
 
 
@@ -136,6 +135,17 @@ public class CsvFilePreparer implements FilePreparer {
                 return o1.compareToIgnoreCase(o2);
             }
         });
+    }
+
+    private void extractFile() throws IOException {
+        try(InputStream inputStream = getClass().getResourceAsStream("/airports123.csv");
+            OutputStream outputStream = new FileOutputStream("airports123.csv")) {
+            byte[] bytes = inputStream.readAllBytes();
+            outputStream.write(bytes);
+
+        } catch (IOException e) {
+            throw new IOException("Sorry, file error has occured");
+        }
     }
 
 }

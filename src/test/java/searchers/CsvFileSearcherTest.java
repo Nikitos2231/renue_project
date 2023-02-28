@@ -21,7 +21,7 @@ class CsvFileSearcherTest {
     private HashMap<Integer, Integer> numberAirportAndStartByteMap = new HashMap<>();
     private TreeMap<String, List<Integer>> valuesColumnAndNumberOfAirportsMap = new TreeMap<>();
     private HashMap<Integer, String> numberOfAirportsAndValuesColumnMap = new HashMap<>();
-    private final String pathToFile = "/test.csv";
+    private final String pathToFile = "src/test/resources/test.csv";
     private FilePreparer filePreparer;
     private FileSearcher fileSearcher;
 
